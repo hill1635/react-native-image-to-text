@@ -1,8 +1,6 @@
-const { Router } = require('express');
-const { detectText } = require('../../controllers/visionController.js');
+const router = require('express').Router();
+const visionController = require('../../controllers/visionController');
 
-const router = Router();
-
-router.route('/').post(detectText);
+router.route('/').post(visionController.detectText);
 
 module.exports = router;
