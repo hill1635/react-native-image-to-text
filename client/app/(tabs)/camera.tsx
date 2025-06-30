@@ -10,6 +10,7 @@ import {
 import { Image } from "expo-image";
 import { useRef, useState } from "react";
 import { Button, Pressable, StyleSheet, Text, View } from "react-native";
+import { detectText } from "../../utils/VisionAPI";
 
 export default function App() {
   const [permission, requestPermission] = useCameraPermissions();
@@ -58,6 +59,15 @@ export default function App() {
     setFacing((prev) => (prev === "back" ? "front" : "back"));
   };
 
+  const convertImageToText = async (imageUri: string) => {
+    try {
+      const response = await detectText(imageUri)
+      console.log("Detected text:", response.data);
+    } catch (error) {
+      console.error("Error detecting text:", error);
+    }
+  };
+
   const renderPicture = () => {
     return (
       <View>
@@ -66,7 +76,7 @@ export default function App() {
           contentFit="contain"
           style={{ width: 300, aspectRatio: 1 }}
         />
-        <Button onPress={() => setUri(null)} title="Take another picture" />
+        <Button onPress={() => convertImageToText(uri)} title="Take another picture" />
       </View>
     );
   };
